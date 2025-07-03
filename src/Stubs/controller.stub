@@ -9,6 +9,8 @@ use Erpmonster\Http\Controller;
 use {{namespace_prefix}}\{{class}}\Models\{{model_name}};
 use {{namespace_prefix}}\{{class}}\Services\{{model_name}}Service;
 use {{namespace_prefix}}\{{class}}\Resources\{{model_name}}Resource;
+use {{namespace_prefix}}\{{class}}\Requests\Store{{model_name}}Request
+use {{namespace_prefix}}\{{class}}\Requests\Update{{model_name}}Request
 use Illuminate\Validation\ValidationException;
 
 
@@ -71,11 +73,11 @@ class {{model_name}}Controller extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param Store{{model_name}}Request $request
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function store(Request $request)
+    public function store(Store{{model_name}}Request $request)
     {
         $this->validate($request, $this->validationRules);
 
@@ -87,12 +89,12 @@ class {{model_name}}Controller extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param Update{{model_name}}Request $request
      * @param $id
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(Update{{model_name}}Request $request, $id)
     {
         $this->validate($request, $this->validationRules);
 

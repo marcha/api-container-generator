@@ -180,6 +180,20 @@ trait ContainerMakeTrait
       $this->info('Resource: ' . $resourceName . ' created successfully.');
     }
   }
+
+  /**
+   * Generate an Request
+   */
+  protected function makeRequest($action)
+  {
+    $requestName = $this->getModelName($this->table) . 'Request';
+    $path = $this->containerPath . 'Requests' . DIRECTORY_SEPARATOR . $requestName . '.php';
+    $this->makeDirectory($path);
+    if (!$this->files->exists($path)) {
+      $this->files->put($path, $this->compileRequestStub($action));
+      $this->info('Request: ' . $requestName . ' created successfully.');
+    }
+  }
   /**
    * Build the directory for the class if necessary.
    *
@@ -403,6 +417,22 @@ trait ContainerMakeTrait
     $this->replaceNamespacePrefix($stub, $this->namespacePrefix)
       ->replaceClassName($stub)
       ->replaceModelName($stub, $this->getModelName());
+    return $stub;
+  }
+
+  /**
+   * Compile the resource stub.
+   *
+   * @return string
+   * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+   */
+  protected function compileRequestStub($action = 'Store')
+  {
+    $stub = $this->files->get(__DIR__ . self::$STUBS_DIR . 'request.stub');
+    $this->replaceNamespacePrefix($stub, $this->namespacePrefix)
+      ->replaceClassName($stub)
+      ->replaceModelName($stub, $this->getModelName())
+      ->replaceActionName($stub, $action);
     return $stub;
   }
 

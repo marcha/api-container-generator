@@ -63,6 +63,8 @@ class CreateContainer extends Command
     $this->makeController();
     //$this->makeTransformer();
     $this->makeResource();
+    $this->makeRequest('Store');
+    $this->makeResource('Update');
     $this->makeRoutes();
 
     $this->composer->dumpAutoloads();
