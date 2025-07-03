@@ -6,9 +6,11 @@ namespace {{namespace_prefix}}\{{class}}\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Erpmonster\Http\Controller;
+use {{namespace_prefix}}\{{class}}\Models\{{model_name}};
 use {{namespace_prefix}}\{{class}}\Services\{{model_name}}Service;
 use {{namespace_prefix}}\{{class}}\Resources\{{model_name}}Resource;
 use Illuminate\Validation\ValidationException;
+
 
 class {{model_name}}Controller extends Controller
 {
@@ -36,7 +38,7 @@ class {{model_name}}Controller extends Controller
      * Display a listing of the resource.
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->validate($request, [
             // The 'limit' parameter is required and must be an integer between 1 and 100.

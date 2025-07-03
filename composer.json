@@ -13,6 +13,10 @@
     {
       "name": "Nikola Marčič",
       "email": "nikola@marcic.net"
+    },
+    {
+      "name": "Branimir Vukosavljević",
+      "email": "gh-bane@gmail.com"
     }
   ],
   "autoload": {
