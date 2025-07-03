@@ -9,8 +9,8 @@ use Erpmonster\Http\Controller;
 use {{namespace_prefix}}\{{class}}\Models\{{model_name}};
 use {{namespace_prefix}}\{{class}}\Services\{{model_name}}Service;
 use {{namespace_prefix}}\{{class}}\Resources\{{model_name}}Resource;
-use {{namespace_prefix}}\{{class}}\Requests\Store{{model_name}}Request
-use {{namespace_prefix}}\{{class}}\Requests\Update{{model_name}}Request
+use {{namespace_prefix}}\{{class}}\Requests\Store{{model_name}}Request;
+use {{namespace_prefix}}\{{class}}\Requests\Update{{model_name}}Request;
 use Illuminate\Validation\ValidationException;
 
 

@@ -186,7 +186,7 @@ trait ContainerMakeTrait
    */
   protected function makeRequest($action)
   {
-    $requestName = $this->getModelName($this->table) . 'Request';
+    $requestName = $action . $this->getModelName($this->table) . 'Request';
     $path = $this->containerPath . 'Requests' . DIRECTORY_SEPARATOR . $requestName . '.php';
     $this->makeDirectory($path);
     if (!$this->files->exists($path)) {

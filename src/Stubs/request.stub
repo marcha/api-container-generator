@@ -1,7 +1,7 @@
 <?php
 
-namespace {{ namespace }};
 namespace {{namespace_prefix}}\{{class}}\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class {{action}}{{model_name}}Request extends FormRequest
