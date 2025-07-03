@@ -173,7 +173,7 @@ trait ContainerMakeTrait
   protected function makeResource()
   {
     $resourceName = $this->getModelName($this->table) . 'Resource';
-    $path = $this->containerPath . 'Resource' . DIRECTORY_SEPARATOR . $resourceName . '.php';
+    $path = $this->containerPath . 'Resources' . DIRECTORY_SEPARATOR . $resourceName . '.php';
     $this->makeDirectory($path);
     if (!$this->files->exists($path)) {
       $this->files->put($path, $this->compileResourceStub());
