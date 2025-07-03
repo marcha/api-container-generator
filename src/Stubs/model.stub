@@ -5,7 +5,6 @@ namespace {{namespace_prefix}}\{{class}}\Models;
 use Illuminate\Database\Eloquent\Model;
 {{uses}}
 
-
 class {{model_name}} extends Model
 {
     protected {{mass_assign}}
