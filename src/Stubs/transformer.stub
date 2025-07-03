@@ -1,0 +1,16 @@
+<?php
+
+namespace {{namespace_prefix}}\{{class}}\Transformers;
+
+use {{namespace_prefix}}\{{class}}\Models\{{model_name}};
+use League\Fractal\TransformerAbstract;
+
+class {{model_name}}Transformer extends TransformerAbstract
+{
+    public function transform({{model_name}} $item)
+    {
+        return [
+            'id' => $item->ID,
+        ];
+    }
+}

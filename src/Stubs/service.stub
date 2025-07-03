@@ -1,0 +1,82 @@
+<?php
+
+namespace {{namespace_prefix}}\{{class}}\Services;
+
+use Illuminate\Events\Dispatcher;
+use {{namespace_prefix}}\{{class}}\Repositories\{{model_name}}Repository;
+use {{namespace_prefix}}\{{class}}\Events\{{model_name}}WasUpdated;
+use {{namespace_prefix}}\{{class}}\Events\{{model_name}}WasCreated;
+use {{namespace_prefix}}\{{class}}\Events\{{model_name}}WasDeleted;
+use {{namespace_prefix}}\{{class}}\Models\{{model_name}};
+use Illuminate\Support\Facades\Cache;
+
+class {{model_name}}Service
+{
+    private $dispatcher;
+    private $repository;
+
+    /**
+     * {{model_name}}Service constructor.
+     * 
+     * @param Dispatcher $dispatcher
+     * @param {{model_name}}Repository $repository
+     */
+    public function __construct(
+        Dispatcher $dispatcher,
+        {{model_name}}Repository $repository
+    ) {
+        $this->dispatcher = $dispatcher;
+        $this->repository = $repository;
+    }
+
+    public function get($options = [])
+    {
+        return $this->repository->get($options);
+    }
+
+    public function getById($id)
+    {
+        return $this->repository->getById($id);
+    }
+
+    public function create($data)
+    {
+        /**
+         * @var {{model_name}}
+         */        
+        $model = $this->repository->create($data);
+        Cache::tags('{{table_name}}')->flush();
+        $this->dispatcher->dispatch(new {{model_name}}WasCreated($model));
+
+        return $model;
+    }
+
+    public function update($id, array $data)
+    {
+        /**
+         * @var {{model_name}}
+         */            
+        $model = $this->repository->getRequested($id);
+        $this->repository->update($model, $data);
+        Cache::tags('{{table_name}}')->flush();
+        $this->dispatcher->dispatch(new {{model_name}}WasUpdated($model));
+        return $model;
+    }
+
+    public function delete($id)
+    {
+        /**
+         * @var {{model_name}}
+         */            
+        $model = $this->repository->getRequested($id);
+        $this->repository->ddelete($id);
+        Cache::tags('{{table_name}}')->flush();
+        $this->dispatcher->dispatch(new {{model_name}}WasDeleted($model));
+    }
+
+    public function lookup($keyField, $displayField, $selectedId, $q)
+    {
+        return $this->repository->lookup($keyField, $displayField, $selectedId, $q);
+    }
+
+}

@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by marcha/api-container-generator.
+ * User: nikola.marcic
+ * Date: 4/21/18
+ * Time: 06:43
+ */
+
+namespace {{namespace_prefix}}\{{class}}\Repositories;
+
+
+use {{namespace_prefix}}\{{class}}\Models\{{model_name}};
+use Erpmonster\Repositories\EloquentRepository;
+
+class {{model_name}}Repository extends EloquentRepository
+{
+
+    protected function getModel()
+    {
+        return new {{model_name}}();
+    }
+
+    public function update({{model_name}} $model, array $data)
+    {
+        $model->fill($data);
+
+        $model->save();
+
+        return $model;
+    }
+}

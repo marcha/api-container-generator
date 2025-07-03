@@ -1,0 +1,112 @@
+<?php
+
+/** 
+ * @OA\Get(
+ *  path="/{{resource}}",
+ *  tags={"{{model_name}}"},
+ *  summary="Get all resources {{model_name}}",
+ *  description="Kreiranje resursa",
+ *  security={{"api_key": {}}},
+ *  @OA\Response(response=200, description="")
+ * )
+ */
+$router->get('/{{resource}}', '{{model_name}}Controller@index');
+
+
+/** 
+ * @OA\Get(
+ *  path="/{{resource}}/{id}",
+ *  tags={"{{model_name}}"},
+ *  summary="Get one resource {{resource}}",
+ *  description="Uzimanje jednog resursa",
+ *  security={{"api_key": {}}},
+ *  @OA\Parameter(
+ *      name="{id}",
+ *      in="path",
+ *      description="Resource ID",
+ *      required=true,
+ *      example=1234,
+ *      @OA\Schema(
+ *          type="integer",
+ *          format="int32",
+ *          minimum="1"
+ *        )
+ *    ),
+ *  @OA\Response(response=200, description="")
+ * )
+ */
+$router->get('/{{resource}}/{id}', '{{model_name}}Controller@show');
+
+/** 
+ * @OA\Post(
+ *  path="/{{resource}}",
+ *  tags={"{{model_name}}"},
+ *  summary="Create new {{model_name}}",
+ *  description="Kreiranje resursa",
+ *  security={{"api_key": {}}},
+ *  @OA\Parameter(
+ *      name="{id}",
+ *      in="path",
+ *      description="Resource ID",
+ *      required=true,
+ *      example=1234,
+ *      @OA\Schema(
+ *          type="integer",
+ *          format="int32",
+ *          minimum="1"
+ *      )
+ *  ),
+ *  @OA\Response(response=200, description="")
+ * )
+ */
+$router->post('/{{resource}}', '{{model_name}}Controller@store');
+
+/** 
+ * @OA\Put(
+ *  path="/{{resource}}/{id}",
+ *  tags={"{{model_name}}"},
+ *  summary="Update {{model_name}}",
+ *  description="Azuriranje resursa po id-u",
+ *  security={{"api_key": {}}},
+ *  @OA\Parameter(
+ *      name="{id}",
+ *      in="path",
+ *      description="Resource ID",
+ *      required=true,
+ *      example=1234,
+ *      @OA\Schema(
+ *          type="integer",
+ *          format="int32",
+ *          minimum="1"
+ *     )
+ *  ),
+ *  @OA\Response(response=200, description="")
+ * )
+ */
+$router->put('/{{resource}}/{id}', '{{model_name}}Controller@update');
+
+/** 
+ * @OA\Delete(
+ *  path="/{{resource}}/{id}",
+ *  tags={"{{model_name}}"},
+ *  summary="Delete from {{model_name}}",
+ *  description="Brisanje resursa po id-u",
+ *  security={{"api_key": {}}},
+ *  @OA\Parameter(
+ *      name="{id}",
+ *      in="path",
+ *      description="Resource ID",
+ *      required=true,
+ *      example=1234,
+ *        @OA\Schema(
+ *          type="integer",
+ *          format="int32",
+ *          minimum="1"
+ *        )
+ *  ),
+ *  @OA\Response(response=200, description="")
+ * )
+ */
+$router->delete('/{{resource}}/{id}', '{{model_name}}Controller@destroy');
+
+$router->get('/lookup/{{resource}}', '{{model_name}}Controller@lookup');

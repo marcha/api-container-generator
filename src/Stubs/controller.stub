@@ -1,0 +1,133 @@
+<?php
+
+namespace {{namespace_prefix}}\{{class}}\Controllers;
+
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Erpmonster\Http\Controller;
+use {{namespace_prefix}}\{{class}}\Services\{{model_name}}Service;
+use {{namespace_prefix}}\{{class}}\Resources\{{model_name}}Resource;
+use Illuminate\Validation\ValidationException;
+
+class {{model_name}}Controller extends Controller
+{
+    /**
+     * @var {{model_name}}Service
+     */
+    private $service;
+
+    /**
+     * Define validation before create and update
+     *
+     * @var array
+     */
+
+    private $validationRules = [
+        'name' => 'required|max:128',
+    ];
+
+    public function __construct({{model_name}}Service $service)
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return JsonResponse
+     */
+    public function index()
+    {
+        $this->validate($request, [
+            // The 'limit' parameter is required and must be an integer between 1 and 100.
+            'limit' => 'required|integer|min:1|max:100',
+            // The 'page' parameter is optional but, if provided, must be an integer greater than or equal to 1.
+            'page' => 'integer|min:1',
+        ]);
+
+        $resourceOptions = $this->parseResourceOptions($request, CASE_UPPER);
+
+        $data = $this->service->get($resourceOptions);
+
+        return $this->paginatedResponse(
+            $data['data'],
+            {{model_name}}Resource::class,
+            $data['pagination'] ?? null
+        );
+    }
+
+    /**
+     * Display a selected  resource.
+     * @param $id
+     * @return JsonResponse
+     */
+    public function show($id)
+    {
+         return new {{model_name}}Resource({{model_name}}::findOrFail($id));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, $this->validationRules);
+
+        $result = $this->service->create($request->all());
+
+        return $this->response($result);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, $this->validationRules);
+
+        $result = $this->service->update($id, $request->all());
+
+        return $this->response($result);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return JsonResponse
+     */
+    public function destroy($id)
+    {
+        $this->service->delete($id);
+
+        return $this->response('Deleted', 201);
+    }
+
+    public function lookup(Request $request)
+    {
+
+        $keyField = $request->get('lookupKeyField');
+
+        $displayField = $request->get('lookupDisplayField');
+
+        $selectedId = $request->get('selectedId');
+
+        $q = $request->get('q', '');
+
+        $q = trim($q);
+
+        $lookup = $this->service->lookup($keyField, $displayField, $selectedId, $q);
+
+        return $this->response($lookup);
+
+    }
+}

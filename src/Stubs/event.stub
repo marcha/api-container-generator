@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * Created by marcha/api-container-generator.
+ * User: nikola.marcic
+ * Date: 2/28/18
+ * Time: 19:32
+ */
+
+namespace {{namespace_prefix}}\{{class}}\Events;
+
+use Erpmonster\Events\Event;
+use {{namespace_prefix}}\{{class}}\Models\{{model_name}};
+
+class {{model_name}}Was{{event}} extends Event
+{
+    /**
+     * @var {{model_name}}
+     */
+    private $model;
+
+    /**
+     * {{model_name}}WasCreated constructor.
+     * @param {{model_name}} $model
+     */
+    public function __construct({{model_name}} $model)
+    {
+        $this->model = $model;
+    }
+}
