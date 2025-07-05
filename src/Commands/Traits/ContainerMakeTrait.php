@@ -411,4 +411,23 @@ trait ContainerMakeTrait
       ->replaceActionName($stub, $action);
     return $stub;
   }
+
+  protected function getAppNamespace()
+  {
+    return app()->getNamespace();
+  }
+
+  protected function getNamespacePath($aNamespace)
+  {
+
+    $composer = json_decode(file_get_contents(base_path('composer.json')), true);
+
+    foreach ((array) data_get($composer, 'autoload.psr-4') as $namespace => $path) {
+      if (strcasecmp(str_replace('\\', '', $namespace), $aNamespace) == 0) {
+        return compact('namespace', 'path');
+      }
+    }
+
+    throw new \RuntimeException("Unable to detect $aNamespace namespace.");
+  }
 }
