@@ -3,10 +3,8 @@
 namespace Marcha\Acg\Commands\Traits;
 
 use Illuminate\Support\Str;
-use Illuminate\Container\Container;
 use Marcha\Acg\Tools\StubParser;
 use Illuminate\Filesystem\Filesystem;
-
 
 trait ContainerMakeTrait
 {
@@ -44,19 +42,7 @@ trait ContainerMakeTrait
    */
   protected function makeMigration()
   {
-    $this->call('make:migration', ['name' => 'create_' . $this->namespacePrefix . '_' . $this->table . '_table']);
-  }
-
-  /**
-   * Generate migration file using stub
-   */
-  protected function makeStubMigration($migration_data)
-  {
-    $migrationPath = $this->getMigrationsPath('create_' . $this->namespacePrefix . '_' . $this->table . '_table');
-    if (!$this->files->exists($migrationPath)) {
-      $this->files->put($migrationPath, $this->compileMigrationStub($migration_data));
-      $this->info('Migration: ' . $migrationPath . ' created successfully.');
-    }
+    $this->call('make:migration', ['name' => 'create_' . $this->table . '_table']);
   }
 
   /**
@@ -207,16 +193,6 @@ trait ContainerMakeTrait
     }
   }
 
-  /**
-   * Get the path to where we should store the migration.
-   *
-   * @param  string $name
-   * @return string
-   */
-  protected function getMigrationsPath($name)
-  {
-    return database_path('migrations' . DIRECTORY_SEPARATOR .  date('Y_m_d_His') . '_' . $name . '.php');
-  }
 
   protected function setNamespace($namespace)
   {
@@ -434,24 +410,5 @@ trait ContainerMakeTrait
       ->replaceModelName($stub, $this->getModelName())
       ->replaceActionName($stub, $action);
     return $stub;
-  }
-
-  protected function getAppNamespace()
-  {
-    return Container::getInstance()->getNamespace();
-  }
-
-  protected function getNamespacePath($aNamespace)
-  {
-
-    $composer = json_decode(file_get_contents(base_path('composer.json')), true);
-
-    foreach ((array) data_get($composer, 'autoload.psr-4') as $namespace => $path) {
-      if (strcasecmp(str_replace('\\', '', $namespace), $aNamespace) == 0) {
-        return compact('namespace', 'path');
-      }
-    }
-
-    throw new \RuntimeException("Unable to detect $aNamespace namespace.");
   }
 }
